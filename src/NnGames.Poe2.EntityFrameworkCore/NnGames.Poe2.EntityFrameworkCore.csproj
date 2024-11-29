@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Jsons\DmGem\gem.json">
+    <EmbeddedResource Include="Jsons\Data\vEarlyAccess20241129\Gem.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,15 +1,23 @@
-﻿using NnGames.Poe2.Domains.DmGem;
-using System;
+﻿using Microsoft.Extensions.Configuration;
+using NnGames.Poe2.Domains.DmGem;
+using NnGames.Poe2.Utils;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
+using Volo.Abp.Auditing;
+using Volo.Abp.Guids;
 
 namespace NnGames.Poe2.Jsons.DmGem
 {
-    public class JsonGemRepository : AbJsonRepository<Gem, Guid>, IGemRepository
+    public class JsonGemRepository : AbGuidJsonRepository<Gem>, IGemRepository
     {
-        public JsonGemRepository() : base("NnGames.Poe2.Jsons.DmGem.gem.json") { }
+        public JsonGemRepository(
+            IAuditPropertySetter auditPropertySetter,
+            IConfiguration configuration,
+            IGuidGenerator guidGenerator) : base(auditPropertySetter, configuration, guidGenerator, "Gem")
+        {
+
+        }
 
         public async Task InsertOrUpdateByNameAsync(List<Gem> lEntity)
         {
@@ -19,12 +27,13 @@ namespace NnGames.Poe2.Jsons.DmGem
             {
                 var entity = l.Where(x => x.Name == iEntity.Name).FirstOrDefault();
                 if (entity == null)
-                    l.Add(iEntity);
+                    l.Add(await ToInsertAsync(iEntity));
                 else
-                    entity = JsonSerializer.Deserialize<Gem>(JsonSerializer.Serialize(entity));
+                    entity = JsonUtil.Clone(await ToUpdateAsync(entity));
             }
 
             await SaveAsync(l);
         }
+
     }
 }

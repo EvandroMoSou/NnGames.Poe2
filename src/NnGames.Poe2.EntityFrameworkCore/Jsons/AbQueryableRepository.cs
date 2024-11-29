@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NnGames.Poe2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace NnGames.Poe2.Jsons
     {
         public abstract Task<List<TEntity>> LoadAsync();
         public abstract Task SaveAsync(List<TEntity> l);
+        public abstract Task<TEntity> ToInsertAsync(TEntity entity);
+        public abstract Task<TEntity> ToUpdateAsync(TEntity entity);
 
         public IAsyncQueryableExecuter AsyncExecuter => throw new NotImplementedException();
 
@@ -115,7 +118,7 @@ namespace NnGames.Poe2.Jsons
         public async Task<TEntity> InsertAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default)
         {
             var l = await GetListAsync();
-            l.Add(entity);
+            l.Add(await ToInsertAsync(entity));
 
             await SaveAsync(l);
             return entity;
@@ -123,6 +126,10 @@ namespace NnGames.Poe2.Jsons
 
         public async Task InsertManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
         {
+            var lEntity = entities.ToList();
+            for (var i = 0; i < lEntity.Count; i++)
+                lEntity[i] = await ToInsertAsync(lEntity[i]);
+
             var l = await GetListAsync();
             l.AddRange(entities);
 
@@ -134,7 +141,7 @@ namespace NnGames.Poe2.Jsons
             var l = await GetListAsync();
 
             var dbEntity = l.Where(x => x.Id!.Equals(entity.Id)).First();
-            dbEntity = JsonSerializer.Deserialize<TEntity>(JsonSerializer.Serialize(entity));
+            dbEntity = JsonUtil.Clone(await ToUpdateAsync(entity));
 
             await SaveAsync(l);
             return dbEntity!;
@@ -147,7 +154,7 @@ namespace NnGames.Poe2.Jsons
             foreach (var entity in entities)
             {
                 var dbEntity = l.Where(x => x.Id!.Equals(entity.Id)).First();
-                dbEntity = JsonSerializer.Deserialize<TEntity>(JsonSerializer.Serialize(entity));
+                dbEntity = JsonUtil.Clone(entity);
             }
 
             await SaveAsync(l);

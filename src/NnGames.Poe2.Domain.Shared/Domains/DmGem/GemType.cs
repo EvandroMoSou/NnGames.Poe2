@@ -2,13 +2,15 @@
 {
     public enum GemType
     {
-        Attack,
-        Spell,
-        Buff,
         Ammunition,
-        Minion,
-        Trigger,
+        Attack,
+        Buff,
+        Channelling,
         Meta,
-        Totem
+        Minion,
+        Spell,
+        Support,
+        Trigger,
+        Warcry
     }
 }

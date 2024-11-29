@@ -1,8 +1,8 @@
-﻿using NnGames.Poe2.EntityFrameworkCore;
+﻿using Microsoft.Extensions.Configuration;
+using NnGames.Poe2.EntityFrameworkCore;
 using NnGames.Poe2.Utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,18 +13,22 @@ namespace NnGames.Poe2.Jsons
     public abstract class AbJsonRepository<TEntity, TKey> : AbQueryableRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
     {
-        protected readonly string _embeddedResourcePath;
-        protected readonly string _filePath;
-        protected readonly bool _useFile;
+        protected readonly IConfiguration _configuration;
+        protected readonly string _entityName;
 
-        public AbJsonRepository(
-            string embeddedResourcePath,
-            string filePath,
-            bool useFile)
+        protected string _embeddedResourcePath;
+        protected string _filePath;
+        protected bool _useFile;
+
+        public AbJsonRepository(IConfiguration configuration, string entityName)
         {
-            _embeddedResourcePath = embeddedResourcePath;
-            _filePath = filePath;
-            _useFile = useFile;
+            _configuration = configuration;
+            _entityName = entityName;
+
+            var version = _configuration["JsonRepository:Version"];
+            _embeddedResourcePath = _configuration["JsonRepository:EmbeddedResourcePath"]!.Replace("{version}", version).Replace("{entity}", _entityName);
+            _filePath = _configuration["JsonRepository:FilePath"]!.Replace("{version}", version).Replace("{entity}", _entityName);
+            _useFile = bool.Parse(_configuration["JsonRepository:UseFile"]!);
         }
 
         public override Task<List<TEntity>> LoadAsync()
@@ -54,15 +58,15 @@ namespace NnGames.Poe2.Jsons
             throw new NotImplementedException();
         }
 
-        protected async Task<List<TEntity>> LoadFileAsync()
+        protected Task<List<TEntity>> LoadFileAsync()
         {
-            var file = await File.ReadAllTextAsync(_filePath);
-            return JsonSerializer.Deserialize<List<TEntity>>(file)!;
+            return Task.FromResult(JsonUtil.ReadFromJsonFile<List<TEntity>>(_filePath));
         }
 
-        protected async Task SaveFileAsync(List<TEntity> l)
+        protected Task SaveFileAsync(List<TEntity> l)
         {
-            await File.WriteAllTextAsync(_filePath, JsonSerializer.Serialize(l));
+            JsonUtil.WriteToJsonFile(_filePath, l);
+            return Task.CompletedTask;
         }
     }
 }
