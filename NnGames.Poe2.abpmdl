@@ -1,0 +1,105 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "4.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.0.0",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "NnGames.Poe2.Application": {
+      "path": "src/NnGames.Poe2.Application/NnGames.Poe2.Application.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.Application.Tests": {
+      "path": "test/NnGames.Poe2.Application.Tests/NnGames.Poe2.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "NnGames.Poe2.Domain.Shared": {
+      "path": "src/NnGames.Poe2.Domain.Shared/NnGames.Poe2.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.Application.Contracts": {
+      "path": "src/NnGames.Poe2.Application.Contracts/NnGames.Poe2.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.HttpApi": {
+      "path": "src/NnGames.Poe2.HttpApi/NnGames.Poe2.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.HttpApi.Client": {
+      "path": "src/NnGames.Poe2.HttpApi.Client/NnGames.Poe2.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.EntityFrameworkCore.Tests": {
+      "path": "test/NnGames.Poe2.EntityFrameworkCore.Tests/NnGames.Poe2.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "NnGames.Poe2.EntityFrameworkCore": {
+      "path": "src/NnGames.Poe2.EntityFrameworkCore/NnGames.Poe2.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.TestBase": {
+      "path": "test/NnGames.Poe2.TestBase/NnGames.Poe2.TestBase.abppkg",
+      "folder": "test"
+    },
+    "NnGames.Poe2.Domain.Tests": {
+      "path": "test/NnGames.Poe2.Domain.Tests/NnGames.Poe2.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "NnGames.Poe2.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/NnGames.Poe2.HttpApi.Client.ConsoleTestApp/NnGames.Poe2.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "NnGames.Poe2.DbMigrator": {
+      "path": "src/NnGames.Poe2.DbMigrator/NnGames.Poe2.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.Blazor": {
+      "path": "src/NnGames.Poe2.Blazor/NnGames.Poe2.Blazor.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.Blazor.Client": {
+      "path": "src/NnGames.Poe2.Blazor.Client/NnGames.Poe2.Blazor.Client.abppkg",
+      "folder": "src"
+    },
+    "NnGames.Poe2.Domain": {
+      "path": "src/NnGames.Poe2.Domain/NnGames.Poe2.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
